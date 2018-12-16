@@ -22,7 +22,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
 # In Windows, this must be set to your system time zone.
-TIME_ZONE = 'KST'
+TIME_ZONE = 'UTC'
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = 'en-us'
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
@@ -38,9 +38,15 @@ USE_TZ = True
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+
+#DATABASES = {
+#    'default': env.db('DATABASE_URL', default='postgres:///nomadgram'),
+#}
+
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///nomadgram'),
+    'default': env.db('DATABASE_URL', default='postgres://postgres:0000@localhost:5432/nomadgram'),
 }
+
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # URLS
@@ -52,6 +58,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # APPS
 # ------------------------------------------------------------------------------
+
+
 DJANGO_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,7 +71,7 @@ DJANGO_APPS = [
     'django.contrib.admin',
 ]
 THIRD_PARTY_APPS = [
-    'crispy_forms',
+#    'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -71,6 +79,7 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     'nomadgram.users.apps.UsersAppConfig',
+    'nomadgram.images.apps.ImagesConfig',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
