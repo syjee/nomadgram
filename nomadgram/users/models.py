@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 #AbstractUser을 상속받음
 class User(AbstractUser):
 
+    """ User Model """
     GENDER_CHOICES = (
         ('male', 'Male'),
         ('female', 'Female'),
