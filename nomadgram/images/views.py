@@ -2,6 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from . import models, serializers
 
+'''
+#test
+
 class ListAllImages(APIView):
 
     def get(self, request, format = None):
@@ -13,20 +16,37 @@ class ListAllImages(APIView):
 class ListAllComments(APIView):
 
     def get(self, request, format = None):
-        all_comments = models.Comment.objects.all()
+        user_id = request.user.id
+        all_comments = models.Comment.objects.filter(creator=user_id)
         serializer = serializers.CommentSerializer(all_comments, many = True)
         
         return Response(data = serializer.data)
 
 class ListAllLikes(APIView):
     def get(self, request, format = None):
-        all_likes = models.Like.objects.all()
+        user_id = request.user.id
+        all_likes = models.Like.objects.filter(creator=user_id)
         serializer = serializers.LikeSerializer(all_likes, many= True)
 
         return Response(data = serializer.data)
 
+'''
+class Feed(APIView):
+    def get(self, request, format = None):
+        user = request.user
+        following_users = user.followings.all()
 
+        image_list = []
+
+        for following_user in following_users:
+            
+            user_images = following_user.images.all()[:2]
+            for image in user_images:
+                image_list.append(image)
+
+        sorted_list = sorted(image_list, key = lambda x : x.created_at, reverse=True)
         
+        serializer = serializers.ImageSerializer(sorted_list, many = True)
 
-
+        return Response(serializer.data)
 
