@@ -21,8 +21,8 @@ class User(AbstractUser):
     bio = models.TextField(null = True)
     phone = models.CharField(max_length = 140, null = True)
     gender = models.CharField(max_length = 80, choices = GENDER_CHOICES,null = True)
-    followings = models.ManyToManyField("self")
-    followers = models.ManyToManyField("self")
+    followings = models.ManyToManyField("self", blank = True)
+    followers = models.ManyToManyField("self", blank = True)
 
     def __str__(self):
         return self.username
