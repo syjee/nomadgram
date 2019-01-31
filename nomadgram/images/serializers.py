@@ -12,21 +12,9 @@ class FeedUserSerializeer(serializers.ModelSerializer):
             'profile_image'
         )
 
-
-
-'''
-class CommentUserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = user_models.User
-        fields = (
-            'username',
-            )
-'''
-
 class CommentSerializer(serializers.ModelSerializer):
 
-    creator = FeedUserSerializeer()
+    creator = FeedUserSerializeer(read_only = True)
 
     class Meta:
         model = models.Comment
@@ -36,6 +24,8 @@ class CommentSerializer(serializers.ModelSerializer):
             'message'
         )
 
+
+
 class LikeSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -44,8 +34,8 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class ImageSerializer(serializers.ModelSerializer):
 
+    #comments_set
     comments = CommentSerializer(many=True)
-   # likes = LikeSerializer(many=True)
     creator = FeedUserSerializeer()
 
     class Meta:

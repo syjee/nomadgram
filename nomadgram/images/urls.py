@@ -21,7 +21,14 @@ urlpatterns = [
     url(
         #patterns, regular expressions, regex
         regex = r'(?P<image_id>[0-9]+)/like/',
-        view = views.Like.as_view(),
-        name = 'likes'
+        view = views.LikeOnImage.as_view(),
+        name = 'like_image'
     ),
+    url(
+        regex = r'(?P<image_id>[0-9]+)/comment/' ,
+        view = views.CommentOnImage.as_view(),
+        name = 'comment_image'
+
+    )
+
 ]
