@@ -99,3 +99,17 @@ class CommentOnImage(APIView):
             return Response(data=serializer.errors, status = status.HTTP_400_BAD_REQUEST)
         
         return Response(status=status.HTTP_202_ACCEPTED)
+
+class DeleteComment(APIView):
+    def delete(self, request, comment_id, format = None):
+        user = request.user
+
+        try:
+            found_comment = models.Comment.objects.get(id = comment_id,creator = user)
+            found_comment.delete()
+            return Response(status = status.HTTP_204_NO_CONTENT)
+
+        except models.Comment.DoesNotExist:
+            return Response(status = status.HTTP_404_NOT_FOUND)
+
+    
