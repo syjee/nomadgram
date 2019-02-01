@@ -51,8 +51,29 @@ class Feed(APIView):
 
         return Response(serializer.data)
 
+class UnLikeOnImage(APIView):
+    def delete(self, reqeust, image_id, format = None):
+        user = reqeust.user
+        
+        try:
+            found_image = models.Image.objects.get(id = image_id)
+        except models.Image.DoesNotExist:
+            return Response(status = status.HTTP_404_NOT_FOUND)
+
+        try : 
+            found_like = models.Like.objects.get(
+                creator = user,
+                image = found_image
+                )
+            found_like.delete()
+            return Response(status = status.HTTP_204_NO_CONTENT)
+
+        except models.Like.DoesNotExist : 
+            return Response(status = status.HTTP_304_NOT_MODIFIED)
+
+
 class LikeOnImage(APIView):
-    def get(self, request, image_id, format = None):
+    def post(self, request, image_id, format = None):
 
         user = request.user
 
@@ -67,8 +88,7 @@ class LikeOnImage(APIView):
                 creator=user,
                 image=found_image
             )
-            preexisting_like.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
 
         except models.Like.DoesNotExist:
             new_like = models.Like.objects.create(
