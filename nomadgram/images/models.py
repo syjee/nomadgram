@@ -26,6 +26,12 @@ class Image(TimeStampedModel):
     def like_count(self):
         return self.likes.all().count()
 
+        
+    @property
+    def comment_count(self):
+        return self.comments.all().count()
+    
+
     #string representation
     def __str__(self):
         return '{} - {}'.format(self.location, self.caption)
@@ -45,7 +51,6 @@ class Comment(TimeStampedModel):
     #string representation
     def __str__(self):
         return self.message
-    
 
 @python_2_unicode_compatible
 class Like(TimeStampedModel):
