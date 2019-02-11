@@ -37,9 +37,14 @@ urlpatterns = [
         name = 'comment_image'
     ),
     url(
-        regex = r'comments/(?P<comment_id>[0-9]+)/$',
+        regex = r'^comments/(?P<comment_id>[0-9]+)/$',
         view = views.DeleteComment.as_view(),
         name = 'delete_comment'
+    ),
+    url(
+        regex = r'^search/$',
+        view = views.Search.as_view(),
+        name = "search_images"
     )
 
 ]

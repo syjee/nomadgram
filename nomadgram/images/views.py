@@ -133,3 +133,17 @@ class DeleteComment(APIView):
             return Response(status = status.HTTP_404_NOT_FOUND)
 
     
+class Search(APIView):
+    def get (self, request, format = None):
+
+        hashtags = request.query_params.get('hashtags','None')
+        if hashtags != None : 
+            hashtags = hashtags.split(",")
+
+            images = models.Image.objects.filter(tags__name__in=hashtags).distinct()
+            
+            serializer = serializers.ProfileImageSerializer(images, many = True)
+
+            return Response(data = serializer.data, status = status.HTTP_200_OK)
+
+        else: return Response(status = status.HTTP_400_BAD_REQUEST)

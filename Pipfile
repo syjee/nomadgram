@@ -5,6 +5,9 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+autopep8 = "*"
+black = "*"
+yapf = "*"
 
 [packages]
 pytz = "==2018.7"
@@ -34,6 +37,9 @@ Werkzeug = "==0.14.1"
 Sphinx = "==1.8.2"
 factory_boy = "==2.11.1"
 django_coverage_plugin = "==1.6.0"
+django-taggit = "*"
+autopep8 = "*"
+yapf = "*"
 
 [requires]
 python_version = "3.6"
