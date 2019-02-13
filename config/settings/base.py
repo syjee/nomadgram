@@ -79,13 +79,13 @@ THIRD_PARTY_APPS = [
     'taggit', # Tag for the photos
 ]
 LOCAL_APPS = [
-    'nomadgram.users.apps.UsersAppConfig',
-    'nomadgram.images.apps.ImagesConfig',
+    'nomadgram.users.apps.UsersAppConfig', #users app
+    'nomadgram.images.apps.ImagesConfig', #images app
+    'nomadgram.notifications.apps.NotificationsConfig' #notifications app
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules

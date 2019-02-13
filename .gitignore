@@ -284,4 +284,4 @@ nomadgram/media/
 
 .pytest_cache/
 
-
+notifications/*
