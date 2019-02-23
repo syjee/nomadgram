@@ -8,6 +8,7 @@ pylint = "*"
 autopep8 = "*"
 black = "*"
 yapf = "*"
+autopep9 = "*"
 
 [packages]
 pytz = "==2018.7"
