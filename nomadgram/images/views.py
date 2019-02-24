@@ -29,6 +29,15 @@ class Feed(APIView):
         return Response(status = status.HTTP_200_OK,data = serializer.data)
 
 class getImage(APIView):
+
+    def find_own_image(self, image_id, user):
+        try: 
+            my_image = models.Image.objects.get(id = image_id, creator = user)
+            return my_image
+        except models.Image.DoesNotExist :
+            return None
+
+
     def get(self, request, image_id, format = None):
         
         try:
@@ -44,19 +53,30 @@ class getImage(APIView):
     def put(self, request, image_id, format  = None):
         user = request.user
 
-        try:
-            image_to_update = models.Image.objects.get(id = image_id, creator = user)
-            serializer = serializers.InputImageSerializer(image_to_update, data = request.data, partial = True)
-
-            if serializer.is_valid():
-                serializer.save(creator = user)
-                return Response(status = status.HTTP_200_OK)
-
-            else : return Response(status = status.HTTP_400_BAD_REQUEST)
-
-
-        except models.Image.DoesNotExist:
+        image_to_update =  self.find_own_image(image_id, user)
+        if image_to_update is None:
             return Response(status = status.HTTP_401_UNAUTHORIZED)
+        
+        serializer = serializers.InputImageSerializer(image_to_update, data = request.data, partial = True)
+
+        if serializer.is_valid():
+            serializer.save(creator = user)
+            return Response(status = status.HTTP_200_OK)
+
+        else : return Response(status = status.HTTP_400_BAD_REQUEST)
+
+            
+
+    def delete(self, request, image_id, format = None):
+        user = request.user
+
+        image_to_delete = self.find_own_image(image_id, user)
+        if image_to_delete is None:
+            return Response(status = status.HTTP_401_UNAUTHORIZED)
+
+        image_to_delete.delete()
+        return Response(status = status.HTTP_204_NO_CONTENT)
+
 
 class UnLikeOnImage(APIView):
     def delete(self, reqeust, image_id, format = None):
